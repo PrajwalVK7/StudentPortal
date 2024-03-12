@@ -1,0 +1,66 @@
+<div class="d-flex">
+    <div *ngIf="showSideBar" class="sidebar d-flex flex-column p-5 "
+        style="height: 80vh;width: 250px; background-color: rgb(159, 129, 66);">
+        <a routerLink="/dashboard" href=""
+            style="text-decoration: none; color: rgb(255, 255, 255); margin-top: 20px;">Dashboard</a>
+        <a routerLink="/students" href="" style="text-decoration: none;  color: white; margin-top: 20px;">Student
+            List</a>
+    </div>
+    <div class="dashboard p-5 w-100" style="height: 80vh;">
+        <div class="row w-100">
+            <div class="col-md-8">
+                <div class="row w-100">
+                    <div class="col-md-12 rounded d-flex align-items-center "
+                        style="background-color: aqua; height: 100px;">
+                        <h4><i class="fa-solid fa-bars ms-3 me-2" (click)="menuBar()"></i>Welcome {{username}}</h4>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-5 shadow rounded p-3">
+                        <mat-card class="demo-inline-calendar-card">
+                            <mat-calendar [(selected)]="selected"></mat-calendar>
+                        </mat-card>
+                        <p>Selected date: {{selected}}</p>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6 shadow rounded">
+
+                        <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+                            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="rounded p-4 d-flex flex-column align-items-center justify-content-center"
+                    style="height: auto; background-color: aquamarine;">
+                    <img style="border-radius: 50%;" class=" img-fluid" [src]="profileImage" height="200px"
+                        width="150px" alt="profileImage">
+                    <button *ngIf="!editAdminStatus" class="btn btn-info mt-3" (click)="edit()">Edit Admin Details</button>
+                    <div *ngIf="editAdminStatus" class=" mt-1 shadow p-4 d-flex justify-content-center align-items-center rounded flex-column ">
+                        <h3>Update admin details</h3>
+                        <label >
+                            <input (change)="getFile($event)" type="file" id="img" style="display: none;">
+                            <img id="img"   style="border-radius: 50%;" class=" img-fluid" [src]="profileImage" height="200px"
+                        width="150px" alt="profileImage">
+                        </label>
+                        
+                        <input [(ngModel)]="adminDetails.name" class="mt-3 form-control" type="text" placeholder="Name" name="" id="">
+                        <input [(ngModel)]="adminDetails.password" class="mt-3 form-control" type="text" placeholder="Password" name="" id="">
+                        <div class="d-flex justify-content-between mt-3 w-100">
+                            <button class="btn btn-outline-warning " style="color: black;" (click)="returnFromEdit()">Cancel</button>
+                            <button class="btn btn-outline-success" style="color: black;" (click)="updateAdmin()">Update</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-3 rounded d-flex justify-content-center align-items-center"
+                    style="height: 150px; background-color: rgb(88, 224, 224);">
+                    <h4>Students: {{studentCount}}</h4>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

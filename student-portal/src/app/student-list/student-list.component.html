@@ -1,0 +1,63 @@
+<div class="d-flex">
+    <div class="sidebar d-flex flex-column p-5 "
+        style="height: 80vh;width: 250px; background-color: rgb(159, 129, 66);">
+        <a routerLink="/dashboard" href=""
+            style="text-decoration: none; color: rgb(255, 255, 255); margin-top: 20px;">Dashboard</a>
+        <a routerLink="/students" href="" style="text-decoration: none;  color: white; margin-top: 20px;">Student
+            List</a>
+    </div>
+    <div class="p-3 w-100 ">
+        <div class="d-flex justify-content-between">
+            <h2>Student List</h2>
+            <a routerLink="/student/add" style="text-decoration: none;" class="btn btn-outline-secondary pt-2"><i
+                    class="fa-solid fa-user-plus me-2"></i>Add</a>
+        </div>
+        <div class="d-flex justify-content-center align-items-center flex-column mt-5 w-100">
+            <div class="d-flex justify-content-between w-100">
+                <div class="d-flex w-75">
+                    <input type="text" name="" placeholder="username" class="form-control" name="searchKey" [(ngModel)]="searchKey">
+                    <div class="dropdown w-100 ms-3">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Sort
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" (click)="sortById()">by id</a></li>
+                            <li><a class="dropdown-item" (click)="sortByname()">By name</a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <button class="btn btn-success" (click)="generatePdf()">Export</button>
+                
+            </div>
+            <div class="mt-3 w-100">
+                <table class="table table-bordered border-primary shadow rounded">
+                    <thead>
+                       <tr class="p-2 table-active">
+                        <th class="py-4 text-center">Student ID</th>
+                        <th class="py-4 text-center">Username</th>
+                        <th class="py-4 text-center">email</th>
+                        <th class="py-4 text-center">Status</th>
+                        <th class="py-4 text-center">Action</th>
+
+                       </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of allStudents | search:searchKey | paginate:{itemsPerPage:5,currentPage:p}" [hidden]="student.id==1">
+                            <td class="py-4 text-center">{{student.id}}</td>
+                            <td class="py-4 text-center">{{student.name | uppercase}}</td>
+                            <td class="py-4 text-center">{{student.email}}</td>
+                            <td class="py-4 text-center"><span [ngClass]="student.status =='1'?'btn btn-success':'btn btn-danger'">{{student.status=='1'?'Active':'inactive'}}</span></td>
+                            <td>
+                                <a routerLink="/student/edit/{{student.id}}" class="btn btn-outline-secondary me-2" ><i class="fa-solid fa-pen-to-square ms-3 me-3 text-warning"></i></a>
+                                <a class="btn btn-outline-info" (click)="deleteStudent(student.id)"><i class="fa-solid fa-trash text-danger ms-3 me-3"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+            </div>
+        </div>
+    </div>
+</div>
